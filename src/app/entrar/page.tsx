@@ -1,0 +1,1 @@
+export default function SignIn(){return <main className="shell section"><h1 style={{fontSize:34,fontWeight:800}}>Acesso empresarial</h1><p className="muted">Em breve: login por conta empresarial, cadastro por CNPJ e condições comerciais individualizadas.</p><div className="notice">Autenticação ainda não implementada. Esta página não coleta credenciais.</div></main>}
