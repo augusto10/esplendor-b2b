@@ -30,6 +30,17 @@ export class MockCatalogAdapter implements CatalogAdapter {
     return DEMO_PRODUCTS.filter(p=>(!query||[p.name,p.sku,p.brand,p.category].some(s=>s.toLocaleLowerCase("pt-BR").includes(query)))&&(!params.category||p.category===params.category));
   }
 }
+function resolveProductImage(value: string | null, origin: string): string | undefined {
+  if (!value) return undefined;
+  try {
+    const url = new URL(value, origin);
+    // Never expose internal HTTP image origins or unsupported schemes to browsers.
+    return url.protocol === "https:" ? url.toString() : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export class EsplendorCatalogAdapter implements CatalogAdapter {
   constructor(private readonly baseUrl: string) {}
   async list(params: {query?: string; category?: string} = {}) {
@@ -46,7 +57,7 @@ export class EsplendorCatalogAdapter implements CatalogAdapter {
     return source.items.filter(p=>p&&p.ativo&&p.id&&p.codigoAdm&&p.nomeVenda).map(p=>({
       id:String(p.id),sku:String(p.codigoAdm),name:String(p.nomeVenda),
       category:p.grupo||"Outros",brand:p.marca||"Marca não informada",icon:"📦",
-      imageUrl:typeof p.imagemPrincipal==="string"&&/^https:\/\//i.test(p.imagemPrincipal)?p.imagemPrincipal:undefined,
+      imageUrl:resolveProductImage(p.imagemPrincipal,this.baseUrl),
       saleMultiple:typeof p.multiploVenda==="number"?p.multiploVenda:null,
       boxQuantity:typeof p.quantidadeCaixa==="number"?p.quantidadeCaixa:null,
     }));
