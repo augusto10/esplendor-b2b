@@ -1,0 +1,3 @@
+import { catalog } from "@/features/products/catalog";
+import { ProductGrid } from "@/components/product-grid";
+export default async function Products({searchParams}:{searchParams:Promise<{q?:string;categoria?:string}>}){const p=await searchParams;const items=await catalog.list({query:p.q,category:p.categoria});return <main className="shell section"><h1 style={{fontSize:36,fontWeight:850,letterSpacing:"-.045em"}}>Catálogo de produtos</h1><p className="muted" style={{marginBottom:24}}>Busca demonstrativa por produto, categoria ou código. Integração real em preparação.</p><ProductGrid products={items}/></main>}
