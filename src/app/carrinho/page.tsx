@@ -1,0 +1,1 @@
+export default function Cart(){return <main className="shell section"><h1 style={{fontSize:34,fontWeight:800}}>Seu carrinho</h1><p className="muted">O carrinho será habilitado quando a integração de catálogo, preços e autenticação estiver pronta.</p><div className="notice">Nenhum pedido pode ser enviado nesta versão demonstrativa.</div></main>}
